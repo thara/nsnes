@@ -20,6 +20,12 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "nsnes",
+            dependencies: ["CPU"]),
+        .target(
+            name: "CPU",
+            dependencies: ["Util"]),
+        .target(
+            name: "Util",
             dependencies: []),
         .testTarget(
             name: "nsnesTests",
