@@ -4,12 +4,18 @@ public class Emulator {
     var cpuBus: Bus
     var cpuTicker: Ticker
 
+    var interrupt: Interrupt?
+
     init(bus: Bus, ticker: Ticker) {
         self.cpuBus = bus
         self.cpuTicker = ticker
     }
 
     public func step() {
+        if handleInterrupt() {
+            return
+        }
+
         let opcode = fetch()
         let instruction = decode(opcode)
         execute(instruction)

@@ -16,6 +16,11 @@ struct CPU {
     var PC: UInt16 = 0x00
 }
 
+public enum Interrupt {
+    case NMI
+    case IRQ
+}
+
 struct Status: OptionSet {
     let rawValue: UInt8
     /// Negative
