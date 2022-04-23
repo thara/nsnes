@@ -32,11 +32,11 @@ public class Emulator {
 
 public protocol Bus {
     func read(_ addr: UInt16) -> UInt8
-    func write(_ addr: UInt16, _ value: UInt8)
+    mutating func write(_ addr: UInt16, _ value: UInt8)
 }
 
 public protocol Ticker {
-    func tick()
+    mutating func tick()
 }
 
 extension Emulator {
@@ -64,8 +64,11 @@ extension Emulator {
         return read(addr).u16 | (read(addr + 1).u16 << 8)
     }
 
-    func readOnIndirect(_ addr: UInt16) -> UInt16 {
-        return 0
+    func readOnIndirect(_ operand: UInt16) -> UInt16 {
+        let low = read(operand).u16
+        // Reproduce 6502 bug; http://nesdev.com/6502bugs.txt
+        let high = read(operand & 0xFF00 | ((operand &+ 1) & 0x00FF)).u16 &<< 8
+        return low | high
     }
 }
 

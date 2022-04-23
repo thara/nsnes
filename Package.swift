@@ -30,5 +30,8 @@ let package = Package(
         .testTarget(
             name: "nsnesTests",
             dependencies: ["nsnes"]),
+        .testTarget(
+            name: "CPUTests",
+            dependencies: ["CPU"]),
     ]
 )
